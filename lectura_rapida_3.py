@@ -1,31 +1,42 @@
 #funciona solo con sudo en python 2 y probando en 3 
 import os, sys, time
-comando  = str.encode("QPIGS\xB7\xA9\r")
-fd = os.open('/dev/hidraw0', os.O_RDWR | os.O_NONBLOCK)
-os.write(fd, comando) 
+
+path = '/dev/hidraw0'
+comando  = b"QPIGS\xB7\xA9\r"
+
+inverter = open (path,"rb+")
+
+ack = inverter.write(comando)
+
+#print(ack)
 time.sleep(0.5) 
-py
-while leido.find('\r') == -1 :   
-    leido = leido + os.read(fd, 8)
-#print leido
+#primera lectura
+leido = inverter.read(8)
+#bucle de lectura hasta encontrar retorno de carro 
+while leido.find(b'\r') == -1 :   
+    leido = leido + inverter.read(8)
+       
+#print (leido)
 valores=leido.split() 
-#print valores
-main_volt =valores[0][1:]
-main_herz=valores[1]
-out_volt=valores[2]
-out_herz=valores[3]
-W_power=str(int(valores[4]))
-VA_power=str(int(valores[5]))
-load_percent=str(int(valores[6]))
-bus_voltage=valores[7]
-bat_volt=valores[8]
-bat_in_current=str(int(valores[9]))
-cap_bat = int (valores[10])
-inverter_temp=str(int(valores[11]))
+#print (valores)
+
+#procesado de valores
+main_volt =str(float(valores[0][1:]))
+main_herz=str(float(valores[1]))
+out_volt=str(float(valores[2]))
+out_herz=str(float(valores[3]))
+W_power=str(float(valores[4]))
+VA_power=str(float(valores[5]))
+load_percent=str(float(valores[6]))
+bus_voltage=str(float(valores[7]))
+bat_volt=str(float(valores[8]))
+bat_in_current=str(float(valores[9]))
+cap_bat =str(float (valores[10]))
+inverter_temp=str(float(valores[11]))
 pv_in_current=str(float(valores[12]))
-pv_in_volt=valores[13]
-bat_V_SCC=valores[14]
-bat_out_current=str(int(valores[15]))
+pv_in_volt=str(float(valores[13]))
+bat_V_SCC=str(float(valores[14]))
+bat_out_current=str(float(valores[15]))
 
 
 cap_bat = str(cap_bat)
@@ -44,4 +55,3 @@ print (">> panel "+pv_in_current+"A")
 print (">> panel "+pv_in_volt+"V")
 print ("bat_Volt_SCC "+bat_V_SCC+"V")
 print (">> BAT "+bat_out_current+"A")
-
