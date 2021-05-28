@@ -6,6 +6,8 @@ time.sleep(0.5)
 leido = os.read (fd,8)
 while leido.find('\r') == -1 :   
     leido = leido + os.read(fd, 8)
+#cierro archivo paara eviter errores (no los ha dadopero bueno)
+os.close(fd)
 #print leido
 valores=leido.split() 
 #print valores
