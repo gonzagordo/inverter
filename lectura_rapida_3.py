@@ -1,5 +1,5 @@
 #funciona solo con sudo en python 2 y probando en 3 
-import os, sys, time
+import os, sys, time, json
 
 path = '/dev/hidraw0'
 comando  = b"QPIGS\xB7\xA9\r"
@@ -38,20 +38,32 @@ pv_in_volt=str(float(valores[13]))
 bat_V_SCC=str(float(valores[14]))
 bat_out_current=str(float(valores[15]))
 
+raw_data ={
 
-cap_bat = str(cap_bat)
-print ("BAT "+cap_bat+"%")
-print ("BAT "+bat_volt+"V")
-print (">>BAT "+bat_in_current+"A")
-print ("<<"+main_volt+"V")
-print ("<<"+main_herz+"Hz")
-print (">>"+out_volt+"V")
-print (">>"+out_herz+"Hz")
-print (">>"+W_power+"W")
-print (">>"+VA_power+"VA")
-print ("bus volt "+bus_voltage+"V")
-print ("inverter temp "+inverter_temp+"C")
-print (">> panel "+pv_in_current+"A")
-print (">> panel "+pv_in_volt+"V")
-print ("bat_Volt_SCC "+bat_V_SCC+"V")
-print (">> BAT "+bat_out_current+"A")
+    "main_volt":main_volt,
+    "main_herz":main_herz,
+    "out_volt":out_volt,
+    "out_herz":out_herz,
+    "W_power":W_power,
+    "VA_power":VA_power,
+    "load_percent":load_percent,
+    "bus_voltage":bus_voltage,
+    "bat_volt":bat_volt,
+    "bat_in_current":bat_in_current,
+    "cap_bat":cap_bat,
+    "inverter_temp":inverter_temp,
+    "pv_in_current":pv_in_current,
+    "pv_in_volt":pv_in_volt,
+    "bat_V_SCC":bat_V_SCC,
+    "bat_out_current":bat_out_current
+    
+}
+
+
+
+
+print("++++++++++++++++++++")
+
+for valor in raw_data.items():
+    print(valor)
+
