@@ -59,7 +59,8 @@ raw_data ={
     
 }
 
-
+with open('data.json', 'w', encoding='utf-8') as f:
+    json.dump(raw_data, f, ensure_ascii=False, indent=4)
 
 
 print("++++++++++++++++++++")
