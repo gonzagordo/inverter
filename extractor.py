@@ -1,5 +1,5 @@
 import json 
 
-with open ('data.json', 'w') as f:
+with open ('data.json', 'r') as f:
     informacion = json.load(f)
-    
+
