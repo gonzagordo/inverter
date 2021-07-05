@@ -1,4 +1,4 @@
-#funciona solo con sudo en python 2 y probando en 3 
+#probando en python 3 
 import os, sys, time, json
 
 path = '/dev/hidraw0'
