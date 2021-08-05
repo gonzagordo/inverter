@@ -1,5 +1,5 @@
 #probando en python 3 
-import os, sys, time, json
+import os, sys, datetime, time, json
 
 print("funcionando en remoto")
     
@@ -24,6 +24,8 @@ while True:
     valores=leido.split() 
     #print (valores)
 
+    fecha=str(datetime.datetime.now())
+    
     #procesado de valores
     main_volt =str(float(valores[0][1:]))
     main_herz=str(float(valores[1]))
@@ -43,7 +45,7 @@ while True:
     bat_out_current=str(float(valores[15]))
 
     raw_data ={
-
+        "ultima_lectureta":fecha,
         "main_volt":main_volt,
         "main_herz":main_herz,
         "out_volt":out_volt,
@@ -63,7 +65,7 @@ while True:
         
     }
 
-    with open('data.json', 'w') as f:
+    with open('/home/pi/inverter/data.json', 'w') as f:
         json.dump(raw_data, f, ensure_ascii=False, indent=4)
 
 
