@@ -2,6 +2,11 @@
 import os, sys, datetime, time, json
 
 print("funcionando en remoto")
+
+def convert (valor):
+     a= str(round(float(valor),2))
+     return a
+
     
 while True:
 
@@ -29,22 +34,22 @@ while True:
     #procesado de valores
     
     # datos directos 
-    main_volt =str(float(valores[0][1:]))
-    main_herz=str(float(valores[1]))
-    out_volt=str(float(valores[2]))
-    out_herz=str(float(valores[3]))
-    W_power=str(float(valores[4]))
-    VA_power=str(float(valores[5]))
-    load_percent=str(float(valores[6]))
-    bus_voltage=str(float(valores[7]))
-    bat_volt=str(float(valores[8]))
-    bat_in_current=str(float(valores[9]))
-    cap_bat =str(float (valores[10]))
-    inverter_temp=str(float(valores[11]))
-    pv_in_current=str(float(valores[12]))
-    pv_in_volt=str(float(valores[13]))
-    bat_V_SCC=str(float(valores[14]))
-    bat_out_current=str(float(valores[15]))
+    main_volt =convert(valores[0][1:])
+    main_herz=convert(valores[1])
+    out_volt=convert(valores[2])
+    out_herz=convert(valores[3])
+    W_power=convert(valores[4])
+    VA_power=convert(valores[5])
+    load_percent=convert(valores[6])
+    bus_voltage=convert(valores[7])
+    bat_volt=convert(valores[8])
+    bat_in_current=convert(valores[9])
+    cap_bat =convert(valores[10])
+    inverter_temp=convert(valores[11])
+    pv_in_current=convert(valores[12])
+    pv_in_volt=convert(valores[13])
+    bat_V_SCC=convert(valores[14])
+    bat_out_current=convert(valores[15])
 
     #datos procesados 
     potencia_solar= str (float(pv_in_current)*float(pv_in_volt)) 
