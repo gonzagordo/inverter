@@ -27,6 +27,8 @@ while True:
     fecha=str(datetime.datetime.now())
     
     #procesado de valores
+    
+    # datos directos 
     main_volt =str(float(valores[0][1:]))
     main_herz=str(float(valores[1]))
     out_volt=str(float(valores[2]))
@@ -44,8 +46,14 @@ while True:
     bat_V_SCC=str(float(valores[14]))
     bat_out_current=str(float(valores[15]))
 
+    #datos procesados 
+    potencia_solar= str (float(pv_in_current)*float(pv_in_volt)) 
+
+
+
     raw_data ={
         "ultima_lectureta":fecha,
+        "potencia_solar" :potencia_solar,
         "main_volt":main_volt,
         "main_herz":main_herz,
         "out_volt":out_volt,
@@ -62,6 +70,7 @@ while True:
         "pv_in_volt":pv_in_volt,
         "bat_V_SCC":bat_V_SCC,
         "bat_out_current":bat_out_current
+        
         
     }
 
