@@ -1,13 +1,24 @@
 #probando en python 3 
 import os, sys, datetime, time, json
 
+import sqlite3
+
+
 print("funcionando en remoto")
+
+
+
 
 def convert (valor):
      a= str(round(float(valor),2))
      return a
 
-    
+
+# conectar con base de datos
+con = sqlite3.connect("/home/pi/pruebas_django/tiendaonline/db.sqlite3")
+cursor = con.cursor()
+
+
 while True:
 
     path = '/dev/hidraw0'
@@ -30,6 +41,11 @@ while True:
     #print (valores)
 
     fecha=str(datetime.datetime.now())
+
+    #fecha actual para grafica
+    now = datetime.datetime.now()
+    fecha_base = now.strftime("20%y-%m-%d %H:%M:%S")
+
     
     #procesado de valores
     
@@ -53,6 +69,10 @@ while True:
 
     #datos procesados 
     potencia_solar= str (float(pv_in_current)*float(pv_in_volt)) 
+
+    #valores para grafica 
+    capacidad_actual =float(cap_bat)
+
 
 
 
@@ -79,9 +99,14 @@ while True:
         
     }
 
+    #volcado de valores a json para web
     with open('/home/pi/inverter/data.json', 'w') as f:
         json.dump(raw_data, f, ensure_ascii=False, indent=4)
 
+    #volcado de valores a base de datos para grafica
+    cursor.execute("insert into gestionpedidos_tiempo(x,y) values('{}',{}) ".format(fecha_base,capacidad_actual))
+
+    con.commit()
 
     print("++++++++++++++++++++")
 
