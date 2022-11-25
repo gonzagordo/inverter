@@ -14,7 +14,7 @@ def convert (valor):
      return a
 
 
-# conectar con base de datos
+# conectar con bases de datos
 con = sqlite3.connect("/home/pi/pruebas_django/tiendaonline/db.sqlite3")
 cursor = con.cursor()
 
@@ -70,12 +70,22 @@ while True:
     #datos procesados 
     potencia_solar= str (float(pv_in_current)*float(pv_in_volt)) 
 
+
     #valores para grafica 
+    #x es la fecha_base
     capacidad_actual =float(cap_bat)
+    in_power = 0
+    sun_power = float(potencia_solar)
+    out_power = float(W_power)
+    generator = float (main_volt)
+    bat_transfer =0
+    bat_output =0
+    pin =0
+    pan=0
+    pun=0
+    fuera=0
 
-
-
-
+    
     raw_data ={
         "ultima_lectureta":fecha,
         "potencia_solar" :potencia_solar,
@@ -105,6 +115,15 @@ while True:
 
     #volcado de valores a base de datos para grafica
     cursor.execute("insert into gestionpedidos_tiempo(x,y) values('{}',{}) ".format(fecha_base,capacidad_actual))
+
+    #volcado de base de datos para historico 
+
+    destino ="x,y,in_power,sun_power,out_power,generador,bat_transfer,bat_output,pin,pan,pun,fuera" 
+    origen ="'{}',{},{},{},{},{},{},{},{},{},{},{}".format(fecha_base,capacidad_actual,in_power,sun_power,out_power,generator,bat_transfer,bat_output,pin,pan,pun,fuera)
+
+    cursor.execute("insert into gestionpedidos_historico({}) values({})".format(destino,origen))
+
+
 
     con.commit()
 
