@@ -15,9 +15,11 @@ def convert (valor):
 
 
 # conectar con bases de datos
-con = sqlite3.connect("/home/pi/pruebas_django/tiendaonline/db.sqlite3")
-cursor = con.cursor()
-
+try:
+    con = sqlite3.connect("/home/pi/pruebas_django/tiendaonline/db.sqlite3")
+    cursor = con.cursor()
+except :
+    print("fallo al conectar con la base de datos")
 
 while True:
 
@@ -113,19 +115,21 @@ while True:
     with open('/home/pi/inverter/data.json', 'w') as f:
         json.dump(raw_data, f, ensure_ascii=False, indent=4)
 
-    #volcado de valores a base de datos para grafica
-    cursor.execute("insert into gestionpedidos_tiempo(x,y) values('{}',{}) ".format(fecha_base,capacidad_actual))
+    #volcado de valores a base de datos para grafica    
+    try:
+        cursor.execute("insert into gestionpedidos_tiempo(x,y) values('{}',{}) ".format(fecha_base,capacidad_actual))
 
-    #volcado de base de datos para historico 
+        #creo los parametros dvolcado de base de datos para historico 
+        destino ="x,y,in_power,sun_power,out_power,generador,bat_transfer,bat_output,pin,pan,pun,fuera" 
+        origen ="'{}',{},{},{},{},{},{},{},{},{},{},{}".format(fecha_base,capacidad_actual,in_power,sun_power,out_power,generator,bat_transfer,bat_output,pin,pan,pun,fuera)
 
-    destino ="x,y,in_power,sun_power,out_power,generador,bat_transfer,bat_output,pin,pan,pun,fuera" 
-    origen ="'{}',{},{},{},{},{},{},{},{},{},{},{}".format(fecha_base,capacidad_actual,in_power,sun_power,out_power,generator,bat_transfer,bat_output,pin,pan,pun,fuera)
+        #volcado
+        cursor.execute("insert into gestionpedidos_historico({}) values({})".format(destino,origen))
+        #actualizado
+        con.commit()
+    except:
+        print("fallo la carga de base de datos") 
 
-    cursor.execute("insert into gestionpedidos_historico({}) values({})".format(destino,origen))
-
-
-
-    con.commit()
 
     print("++++++++++++++++++++")
 
